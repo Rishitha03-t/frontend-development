@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>University Dashboard Prototype</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    --celadon: #a1cca5ff;
+    --cambridge-blue: #8fb996ff;
+    --cambridge-blue-2: #709775ff;
+    --hunter-green: #415d43ff;
+    --eerie-black: #111d13ff;
+  }
+
+  body {
+    background-color: var(--celadon);
+    color: var(--eerie-black);
+  }
+
+  .card {
+    @apply rounded-2xl shadow-sm p-5;
+    background-color: var(--cambridge-blue);
+    color: var(--eerie-black);
+  }
+
+  .sidebar {
+    width: 260px;
+    background-color: var(--hunter-green);
+    color: var(--celadon);
+  }
+
+  .sidebar button {
+    color: var(--celadon);
+  }
+
+  .sidebar button:hover {
+    background-color: var(--cambridge-blue-2);
+    color: var(--eerie-black);
+  }
+
+  .muted {
+    color: var(--eerie-black);
+    opacity: 0.7;
+  }
+
+  .table th {
+    font-weight: 600;
+    background-color: var(--cambridge-blue-2);
+    color: var(--eerie-black);
+  }
+
+  .table td {
+    border: 1px solid var(--cambridge-blue-2);
+    color: var(--eerie-black);
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: var(--celadon);
+  }
+
+  .table tbody tr:nth-child(odd) {
+    background-color: var(--cambridge-blue);
+  }
+
+  .bg-gradient {
+    background: linear-gradient(90deg, var(--celadon), var(--cambridge-blue), var(--cambridge-blue-2), var(--hunter-green), var(--eerie-black));
+  }
+
+  button.bg-accent {
+    background-color: var(--cambridge-blue-2);
+    color: var(--eerie-black);
+  }
+
+  select, input, button {
+    border: 1px solid var(--cambridge-blue-2);
+    color: var(--eerie-black);
+    background-color: var(--celadon);
+  }
+
+  header, h1, h2, h3 {
+    color: var(--eerie-black);
+  }
+
+  .chart-bar {
+    background-color: var(--hunter-green);
+    border-radius: 0.25rem;
+  }
+</style>
+</head>
+<body class="font-sans">
+<div class="min-h-screen flex">
+  <!-- Sidebar -->
+  <aside class="sidebar hidden md:block p-6">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-10 h-10 rounded-lg bg-cambridge-blue-2 flex items-center justify-center text-xl font-bold">S</div>
+      <div>
+        <div class="text-lg font-semibold">CDU</div>
+        <div class="text-sm muted">Admin</div>
+      </div>
+    </div>
+    <nav class="space-y-2 text-sm">
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">Dashboard</button>
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">Manage Departments</button>
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">Manage Staff</button>
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">Attendance Reports</button>
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">System Settings</button>
+      <button class="w-full text-left px-3 py-2 rounded-md hover:bg-cambridge-blue-2 flex items-center gap-3">Announcements</button>
+    </nav>
+  </aside>
+
+  <!-- Main area -->
+  <main class="flex-1 p-6">
+    <!-- Top bar -->
+    <header class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-4">
+        <h1 id="page-title" class="text-2xl font-semibold">Dashboard</h1>
+        <div class="hidden sm:flex items-center gap-2 text-sm muted">
+          <span class="px-3 py-1 rounded-full shadow-xs bg-cambridge-blue-2">Role:</span>
+          <select id="roleSelect" class="rounded-md p-2 border">
+            <option>Administration Admin</option>
+            <option>Department Head</option>
+            <option>Teaching Staff</option>
+            <option>Non-Teaching Staff</option>
+            <option>Student</option>
+            <option>Security Staff</option>
+            <option>Receptionist / Front Desk</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="p-2 rounded-md bg-cambridge-blue-2">🔔</button>
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-full bg-cambridge-blue"></div>
+          <div class="text-sm">
+            <div class="font-medium">Admin</div>
+            <div class="muted text-xs">admin@cdu.com</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Role Views container -->
+    <section id="rolesContainer">
+
+      <!-- Administration Admin View -->
+      <div class="role-view" data-role="Administration Admin">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div class="card">Students: 1,500</div>
+          <div class="card">Total Staff: 70</div>
+          <div class="card">Departments: 10</div>
+          <div class="card">Today's Attendance: 75%</div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div class="card lg:col-span-2 bg-gradient">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="font-semibold">Enrollment (last 6 months)</h3>
+              <div class="muted text-sm">View report</div>
+            </div>
+            <div class="h-40 rounded-md flex items-end p-4 gap-2">
+              <div class="chart-bar h-20 w-8"></div>
+              <div class="chart-bar h-28 w-8"></div>
+              <div class="chart-bar h-24 w-8"></div>
+              <div class="chart-bar h-32 w-8"></div>
+              <div class="chart-bar h-30 w-8"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="font-semibold mb-2">Notifications</h3>
+            <ul class="text-sm muted space-y-2">
+              <li>Internals scheduled for next week</li>
+              <li>New circular: Winter break schedule</li>
+            </ul>
+          </div>
+
+          <div class="card lg:col-span-2">
+            <h3 class="font-semibold mb-3">Attendance Trend</h3>
+            <div class="h-40 rounded-md p-4 flex items-end bg-cambridge-blue-2">
+              <div class="chart-bar w-full h-24"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="font-semibold mb-2">Quick Actions</h3>
+            <div class="flex gap-2">
+              <button class="px-3 py-2 rounded bg-accent">Add Department</button>
+              <button class="px-3 py-2 rounded border border-hunter-green">Add Staff</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Department Head View -->
+      <div class="role-view hidden" data-role="Department Head">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="card">Faculty Count: 12</div>
+          <div class="card">Students: 240</div>
+          <div class="card">Pending Tasks: 4</div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold">Upcoming Meetings / Events</h3>
+            <div class="muted text-sm">Manage</div>
+          </div>
+          <ul class="mt-3 space-y-2 muted">
+            <li>Internals - Oct 26</li>
+            <li>Curriculum review - Nov 1</li>
+          </ul>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="card">
+            <h3 class="font-semibold mb-2">Attendance by Class</h3>
+            <div class="h-36 bg-cambridge-blue-2 rounded"></div>
+          </div>
+          <div class="card">
+            <h3 class="font-semibold mb-2">Internal Marks</h3>
+            <div class="h-36 bg-cambridge-blue-2 rounded"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teaching Staff View -->
+      <div class="role-view hidden" data-role="Teaching Staff">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="card">Today Classes: 3</div>
+          <div class="card">Pending Attendance: 1</div>
+          <div class="card">Messages: 2</div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="card">
+            <h3 class="font-semibold mb-3">Today's Schedule</h3>
+            <table class="table w-full text-center align-middle">
+              <thead>
+                <tr>
+                  <th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>09:00-10:00</td><td>DS</td><td>DBMS</td><td>OS</td><td>DS</td><td>Lab</td></tr>
+                <tr><td>10:15-11:15</td><td>DBMS</td><td>Lab</td><td>DS</td><td>DBMS</td><td>Math</td></tr>
+                <tr><td>11:30-12:30</td><td>Lab</td><td>DS</td><td>DBMS</td><td>Lab</td><td>DS</td></tr>
+                <tr><td>12:30-01:30</td><td colspan="5" class="bg-celadon">Lunch Break</td></tr>
+                <tr><td>01:30-02:30</td><td>Math</td><td>DS</td><td>DBMS</td><td>Math</td><td>Lab</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3 class="font-semibold mb-2">Quick Actions</h3>
+            <div class="space-y-2">
+              <button class="w-full px-3 py-2 rounded border border-hunter-green">Take Attendance</button>
+              <button class="w-full px-3 py-2 rounded bg-accent">Enter Marks</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Non-Teaching Staff View -->
+      <div class="role-view hidden" data-role="Non-Teaching Staff">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="card">Assigned Tasks: 5</div>
+          <div class="card">Leave Balance: 6 days</div>
+          <div class="card">Messages: 1</div>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold mb-2">Today's Tasks</h3>
+          <ul class="space-y-1 muted">
+            <li>Maintenance of Lab A</li>
+            <li>Library Arrangement</li>
+            <li>Office Documents Filing</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Student View -->
+      <div class="role-view hidden" data-role="Student">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="card">Total Credits: 120</div>
+          <div class="card">GPA: 8.6</div>
+          <div class="card">Pending Assignments: 2</div>
+        </div>
+
+        <div class="card mb-4">
+          <h3 class="font-semibold mb-2">Timetable</h3>
+          <table class="table w-full text-center align-middle">
+            <thead>
+              <tr>
+                <th>Time</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>09:00-10:00</td><td>DS</td><td>DBMS</td><td>OS</td><td>DS</td><td>Lab</td></tr>
+              <tr><td>10:15-11:15</td><td>DBMS</td><td>Lab</td><td>DS</td><td>DBMS</td><td>Math</td></tr>
+              <tr><td>11:30-12:30</td><td>Lab</td><td>DS</td><td>DBMS</td><td>Lab</td><td>DS</td></tr>
+              <tr><td>12:30-01:30</td><td colspan="5" class="bg-celadon">Lunch Break</td></tr>
+              <tr><td>01:30-02:30</td><td>Math</td><td>DS</td><td>DBMS</td><td>Math</td><td>Lab</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Security Staff View -->
+      <div class="role-view hidden" data-role="Security Staff">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div class="card">Entries Today: 120</div>
+          <div class="card">Incidents Reported: 0</div>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold mb-2">Alerts</h3>
+          <ul class="muted space-y-2">
+            <li>No pending alerts</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Receptionist / Front Desk View -->
+      <div class="role-view hidden" data-role="Receptionist / Front Desk">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div class="card">Visitors Today: 25</div>
+          <div class="card">Appointments Scheduled: 8</div>
+          <div class="card">Messages: 2</div>
+        </div>
+        <div class="card">
+          <h3 class="font-semibold mb-2">Today’s Tasks</h3>
+          <ul class="muted space-y-2">
+            <li>Coordinate Meetings</li>
+            <li>Handle Deliveries</li>
+            <li>Visitor Log Updates</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<script>
+  const select = document.getElementById('roleSelect');
+  const views = Array.from(document.querySelectorAll('.role-view'));
+  function showRole(role) {
+    views.forEach(v => {
+      if (v.dataset.role === role) v.classList.remove('hidden');
+      else v.classList.add('hidden');
+    });
+    document.getElementById('page-title').textContent = role + ' Dashboard';
+  }
+  showRole(select.value);
+  select.addEventListener('change', (e) => showRole(e.target.value));
+</script>
+</body>
+</html>
